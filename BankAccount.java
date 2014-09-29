@@ -1,6 +1,6 @@
 public class BankAccount{
     //instance variables
-    private int balance;
+    private double balance;
     private int account;
     private String username;
     private String password;
@@ -30,7 +30,7 @@ public class BankAccount{
     }
 
     //2.set methods
-    public void setbalance(int balance){
+    public void setbalance(double balance){
 	this.balance = balance;
     }
     public String setaccount(int acct){
@@ -54,7 +54,7 @@ public class BankAccount{
 	this.pin=pin;
     }
     //3.method to deposit money to account
-    public String deposit(int newmoney){
+    public String deposit(double newmoney){
 	if (newmoney>0){
 	    setbalance(balance + newmoney);
 	    return "Yay! More money! Deposit successful";
@@ -62,8 +62,8 @@ public class BankAccount{
 	return "I wouldn't be adding debt if I were you. Deposit failed.";
     }
     //4.method to w/draw $--> true if successful, false otherwise
-    public String withdraw(int newmoney){
-	int x= (balance - newmoney);
+    public String withdraw(double newmoney){
+	double x= (balance - newmoney);
 	/*
 	if (x > 0){
 	    setbalance(x);
@@ -94,13 +94,19 @@ public class BankAccount{
 	return "Name: "+username+"     Account#: "+account+"     Balance: "+balance;
     }
 
+    //authenticate method; verify account and password
+    public boolean authenticate(int account, String password){
+	return (this.account==account && this.password==password);
+    }
+
+
     //7.main method to test code
     public static void main(String[]args){
 	BankAccount a,b;
 	a = new BankAccount();
 	b = new BankAccount(0,1,"bob","hi",1234);
 	a.setbalance (10);
-	a.setaccount(12);
+	a.setaccount(738291837);
 	a.setuser("anne");
 	a.setpass("hello");
 	a.setpin(5432);
@@ -116,7 +122,8 @@ public class BankAccount{
 	*/
 	//System.out.println(a.toString());
 	//System.out.println(a.withdraw(-55));
-	System.out.println(a.deposit(-42));
+	//System.out.println(a.deposit(-42));
+	System.out.println(a.authenticate(73829187, "hello"));
 	
     }
 }
