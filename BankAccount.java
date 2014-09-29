@@ -54,18 +54,34 @@ public class BankAccount{
 	this.pin=pin;
     }
     //3.method to deposit money to account
-    public void deposit(int newmoney){
-	setbalance(balance + newmoney);
+    public String deposit(int newmoney){
+	if (newmoney>0){
+	    setbalance(balance + newmoney);
+	    return "Yay! More money! Deposit successful";
+	}
+	return "I wouldn't be adding debt if I were you. Deposit failed.";
     }
     //4.method to w/draw $--> true if successful, false otherwise
     public String withdraw(int newmoney){
 	int x= (balance - newmoney);
+	/*
 	if (x > 0){
 	    setbalance(x);
 	    return "true";
 	}
 	else{
 	    return "false";
+	}
+	*/
+	if (x>0){
+	    if (newmoney>0){
+		balance=x;
+		return "Withdraw successful";
+	    }
+	    return "Cannot withdraw negative. Withdraw failed.";
+	}
+	else{
+	    return "Error: Not enough balance. Withdraw failed.";
 	}
     }
     //5.print method showing all info
@@ -77,6 +93,7 @@ public class BankAccount{
     public String toString(){
 	return "Name: "+username+"     Account#: "+account+"     Balance: "+balance;
     }
+
     //7.main method to test code
     public static void main(String[]args){
 	BankAccount a,b;
@@ -97,7 +114,9 @@ public class BankAccount{
 	System.out.println(a.toString());
 	System.out.println(b.toString());
 	*/
-	System.out.println(a.toString());
+	//System.out.println(a.toString());
+	//System.out.println(a.withdraw(-55));
+	System.out.println(a.deposit(-42));
 	
     }
 }
