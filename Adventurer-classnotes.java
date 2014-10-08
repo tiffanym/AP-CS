@@ -1,4 +1,4 @@
-public class Adventurer{
+public class Adventurer-classnotes{
 
     private String name;
 
