@@ -1,19 +1,25 @@
 public class Adventurer{
     private String name;
     private int HP;
+    private int STR;
     private int DEX;
+    private int INT;
 
     //constructors
-    public Adventurer(String name,int HP, int DEX){
+    public Adventurer(String name,int HP, int STR, int DEX, int INT){
     	setName(name);
 	setHP(HP);
+	setSTR(STR);	  
 	setDEX(DEX);
+	setINT(INT);
     }
     //int num = (int) (Math.random()*range)+min
     //where "range=(max-min)+1"
     public Adventurer (String name){
 	this(name, (int)(Math.random()*81)+20, 
-	     (int)(Math.random()*41)+10);
+	     (int)(Math.random()*31)+10,
+	     (int)(Math.random()*31)+10,
+	     (int)(Math.random()*31)+10);
     }
     public Adventurer(){   
     }
@@ -33,6 +39,13 @@ public class Adventurer{
 	this.HP=HP;
     }
 
+    public int getSTR(){
+	return STR;
+    }
+    public void setSTR(int STR){
+	this.STR=STR;
+    }
+
     public int getDEX(){
 	return DEX;
     }
@@ -40,9 +53,16 @@ public class Adventurer{
 	this.DEX=DEX;
     }
 
+    public int getINT(){
+	return INT;
+    }
+    public void setINT(int INT){
+	this.INT=INT;
+    }
+
     //toString method
     public String toString(){
-	return "Name: "+getName()+"\n HP: "+getHP()+"\n Dex: "+DEX;
+	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT";
     }
 
     //hit method-- will you hit the person or not
@@ -65,27 +85,36 @@ public class Adventurer{
 	}
 	return getName() + " attacks " + other.getName();
 	*/
-	String msg="Did you, "+getName()+", successfully attack "+other.getName()+"? \n";
+	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+" \n";
 	double hitchance= (double)(Math.random()*2)+0;
 	if (hit(other, hitchance)){
-	    int x=(int)((1.00- (double)(getDEX()/other.getDEX()))*getHP());
-	    if (x==0){
-		x=5;
-	    }
-	    if (other.getHP()-x>0){
+	    int x=(int)(1.00- (double)(getDEX()/other.getDEX()))*getHP();
+	    //if (x==0){
+	    //x=5;
+	    //}
+	    if (other.getHP()-x>0 && x>0){
 		other.setHP(other.getHP()-x);
 		msg=msg+"Yay! "+getName()+" successfully hit "+
 		    other.getName()+" and did "+ x+ " damage";
 	    }
-	    else if (other.getHP()-x<=0){
+	    else if (other.getHP()-x<=0 && x>0){
 		other.setHP(0);
 		msg=msg+"Dayum! "+getName()+" did " +x+
 		    " damage and KOed "+other.getName();
 	    }
 	}
 	else{
-	    msg= msg+"Sorry "+getName()+", but "+other.getName()+" was a lot faster than you and dodged your hit. That's life.";
+	    msg= msg+"...and misses :(";
 	}
 	return msg;
     }
+    /*
+    public boolean checkattack(Adventurer other){
+	String msg=(String)(attack(other));
+	if (msg.substring(msg.length()-2).equals(":(")){
+	    return false;
+	}
+	return true;
+    }
+    */
 }
