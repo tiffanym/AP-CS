@@ -61,7 +61,7 @@ public class Adventurer{
     }
 
     //toString method
-    public String toString(){
+    public String getStats(){
 	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT";
     }
 
@@ -117,4 +117,13 @@ public class Adventurer{
 	return true;
     }
     */
+    public String specialAttack(Adventurer other){
+	double hitchance= (double)(Math.random()*2)+0;
+	if (hit (other,hitchance)){
+	    int x=(int)((1.00- (double)(getDEX()/other.getDEX()))*1.5)*getHP();
+	    x=x+10;	    
+	    return getName()+" does some special attack that an adventurer would do "+other.getName()+" and does "+x+" damage";
+	}
+	return attack(other);
+    }
 }
