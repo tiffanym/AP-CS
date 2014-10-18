@@ -4,43 +4,31 @@ public class Driver{
 	Warrior b = new Warrior("Dan");
 	Wizard c= new Wizard("Merlin");
 	Rogue d= new Rogue("Al");
-	/*
-	System.out.println(a.attack(b));
-	System.out.println(b.attack(a));
-	System.out.println(c.attack(a));
-	System.out.println(d.attack(a));
-	System.out.println("What happens if Bob attacks himself?" +
-			   a.attack(a));
-	
-	System.out.println(b.specialAttack(a));
-	System.out.println(c.specialAttack(a));
-	System.out.println(d.specialAttack(a));
-	*/
-	
-	System.out.println(a.toString());
-	System.out.println(b.toString());
-	System.out.println(c.toString());
-	System.out.println(d.toString());
-	//System.out.println(a.hit(b,.7));
-	//System.out.println(b.hit(a,.5));
 
-	System.out.println("\n");
+	System.out.println(a.getStats());
+	System.out.println(b.getStats());
+	System.out.println(c.getStats());
+	System.out.println(d.getStats());
+	System.out.println();
+
 	System.out.println(a.attack(b));
-	System.out.println("\n");
+	System.out.println();
+
 	System.out.println(b.attack(c));
 	System.out.println(b.specialAttack(a));
-	System.out.println("\n");
+	System.out.println();
+
 	System.out.println(c.attack(d));
 	System.out.println(c.specialAttack(b));
-	System.out.println("\n");
+	System.out.println();
+
 	System.out.println(d.attack(a));
 	System.out.println(d.specialAttack(c));
-	System.out.println("\n");
+	System.out.println();
 
-	System.out.println(a.toString());
-	System.out.println(b.toString());
-	System.out.println(c.toString());
-	System.out.println(d.toString());
-
+	System.out.println(a.getStats());
+	System.out.println(b.getStats());
+	System.out.println(c.getStats());
+	System.out.println(d.getStats());
     }
 }
