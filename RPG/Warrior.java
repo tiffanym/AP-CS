@@ -23,8 +23,8 @@ public class Warrior extends Adventurer{
     }
    
     //toString method
-    public String toString(){
-	return super.toString()+" "+getrage()+" rage";
+    public String getStats(){
+	return super.getStats()+" "+getrage()+" rage";
     }
 
     //attack method(s)    
