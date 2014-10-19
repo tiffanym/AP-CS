@@ -54,13 +54,34 @@ public class Game{
 	String name=namescan.nextLine();
 	player.setName(name);
 	System.out.println("*Salutes* I welcome you "+name+".\n");
-
+	//this is pause/wait code so stuff doesn't print all at once
+	//from www.dreamincode.net/forums/topic/220210-is-there-a-way-to-set-a-delay-between-showing-outputs/
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	//player can "create" character y allocating 30 stat points b/w their STR/DEX/INT
 	System.out.println("Here are your current stats:");
 	System.out.println(player.getStats());
 	System.out.println();
+	//this is pause/wait code so stuff doesn't print all at once
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	System.out.println("You have 30 stat points to distribute b/w STR/DEX/INT");
 	int x=30;
+	//this is pause/wait code so stuff doesn't print all at once
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	//adds to STR stat
 	Scanner allocateSTR=new Scanner(System.in);
 	System.out.println("How many points would you like to add to STR?");
@@ -73,13 +94,27 @@ public class Game{
 	x=x-addSTR;
 	player.setSTR(player.getSTR()+addSTR);
 	System.out.println("You have added "+addSTR+" stat points to STR. \n"+" Your strength is now "+player.getSTR()+".");
+	//this is pause/wait code so stuff doesn't print all at once
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	if (x>0){
 	    //adds to DEX stat
 	    System.out.println("You have "+x+" stat points to distribute b/w DEX and INT");
+	    //this is pause/wait code so stuff doesn't print all at once
+	    try{
+		Thread.sleep(1000);//wait a second
+	    }
+	    catch(InterruptedException e){
+		e.printStackTrace();
+	    }
 	    Scanner allocateDEX=new Scanner(System.in);
 	    System.out.println("How many points would you like to add to DEX?");
 	    int addDEX=allocateDEX.nextInt();
-	    while (addSTR>=x || addSTR<0){
+	    while (addDEX>x || addDEX<0){
 		System.out.println("ERROR Please enter a number between 0 and "+x);
 		System.out.println("How many point would you like to add to DEX?");
 		addDEX=allocateDEX.nextInt();		
@@ -87,9 +122,16 @@ public class Game{
 	    x=x-addDEX;
 	    player.setDEX(player.getDEX()+addDEX);
 	    System.out.println("You have added "+addDEX+" stat points to DEX. \n"+" Your dexterity is now "+player.getDEX()+".");	    
+	    //this is pause/wait code so stuff doesn't print all at once
+	    try{
+		Thread.sleep(1000);//wait a second
+	    }
+	    catch(InterruptedException e){
+		e.printStackTrace();
+	    }
 	    if (x>0){
 		//adds to INT
-		System.out.println("You have "+x+ "stat points to distribute to INT");
+		System.out.println("You have "+x+ " stat points to distribute to INT");
 		Scanner resttoINTq=new Scanner(System.in);
 		//asks if wants to add all points left to INT
 		System.out.println("Would you like to distribute your remaining points to INT? [Y/N]");
@@ -105,7 +147,7 @@ public class Game{
 		    Scanner allocateINT=new Scanner(System.in);
 		    System.out.println("How many points would you like to add to INT?");
 		    int addINT=allocateINT.nextInt();
-		    while (addINT>=x || addINT<0){
+		    while (addINT>x || addINT<0){
 			System.out.println("ERROR Please enter a number between 0 and "+x);
 			System.out.println("How many point would you like to add to INT?");
 			addINT=allocateINT.nextInt();		
@@ -114,6 +156,13 @@ public class Game{
 		    player.setINT(player.getINT()+addINT);
 		    System.out.println("You have added "+addINT+" stat points to INT. \n"+"Your intelligence is now "+player.getINT()+".");
 		    System.out.println();
+		    //this is pause/wait code so stuff doesn't print all at once
+		    try{
+			Thread.sleep(1000);//wait a second
+		    }
+		    catch(InterruptedException e){
+			e.printStackTrace();
+		    }
 		    //checking to make sure player wants to add any leftover points or leave it as is
 		    Scanner whattodowithrest=new Scanner(System.in);
 		    System.out.println("Are you sure you don't want to allocate the rest of your points to one of the stats? \n"+
@@ -138,19 +187,47 @@ public class Game{
 			int newAddSTR=x;
 			player.setSTR(player.getSTR()+newAddSTR);
 			System.out.println("You have added "+newAddSTR+" stat points to STR. \n"+" Your strength is now "+player.getSTR()+".");
+			//this is pause/wait code so stuff doesn't print all at once
+			try{
+			    Thread.sleep(1000);//wait a second
+			}
+			catch(InterruptedException e){
+			    e.printStackTrace();
+			}
 		    }
 		    else if (response.equals("B")){
 			int newAddDEX=x;
 			player.setDEX(player.getDEX()+newAddDEX);
 			System.out.println("You have added "+newAddDEX+" stat points to DEX. \n"+" Your dexterity is now "+player.getDEX()+".");
+			//this is pause/wait code so stuff doesn't print all at once
+			try{
+			    Thread.sleep(1000);//wait a second
+			}
+			catch(InterruptedException e){
+			    e.printStackTrace();
+			}
 		    }
-		    else if (response.equals("A")){
+		    else if (response.equals("C")){
 			int newAddINT=x;
 			player.setINT(player.getINT()+newAddINT);
 			System.out.println("You have added "+newAddINT+" stat points to INT. \n"+" Your intelligence is now "+player.getINT()+".");
+			//this is pause/wait code so stuff doesn't print all at once
+			try{
+			    Thread.sleep(1000);//wait a second
+			}
+			catch(InterruptedException e){
+			    e.printStackTrace();
+			}
 		    }
-		    else if (response.equals("A")){
+		    else if (response.equals("D")){
 			System.out.println("Okay, okay, geez."+ "\n *Sooomeone's got anger issues O_O*");
+			//this is pause/wait code so stuff doesn't print all at once
+			try{
+			    Thread.sleep(1000);//wait a second
+			}
+			catch(InterruptedException e){
+			    e.printStackTrace();
+			}			
 		    }
 		}
 	    }
@@ -158,12 +235,33 @@ public class Game{
 	else{
 	    System.out.println("You have allocated all your stat points to STR, and so none are left for DEX or INT. :'(");
 	}
+	//this is pause/wait code so stuff doesn't print all at once
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	System.out.println("Here are your updated stats:");
 	System.out.println(player.getStats());
 	System.out.println();	
 
+	//this is pause/wait code so stuff doesn't print all at once
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	//Player and Opponent now in combat mode
 	System.out.println("You, "+name+", will be going against "+opponent.getName()+". \n");
+	//this is pause/wait code so stuff doesn't print all at once
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	//checks readiness/ "Are you still alive right now"-ness
 	Scanner readyscan=new Scanner(System.in);
 	System.out.println("Are you ready? [Y/N]");
@@ -175,7 +273,21 @@ public class Game{
 	    System.out.println("Too bad. You signed up for this, so stop complaining. >:-) \n");
 	}
 
+	//this is pause/wait code so stuff doesn't print all at once
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	System.out.println("Out of courtesy, opponent will allow "+player.getName() +" to go first. \n");
+	//this is pause/wait code so stuff doesn't print all at once
+	try{
+	    Thread.sleep(1000);//wait a second
+	}
+	catch(InterruptedException e){
+	    e.printStackTrace();
+	}
 	//lists stats
 	while (player.getHP()>0 && opponent.getHP()>0){
 	    System.out.println(player.getStats());
@@ -193,25 +305,52 @@ public class Game{
 	    }
 	    if (action.equals("A")){
 		System.out.println(player.attack(opponent));
+		//this is pause/wait code so stuff doesn't print all at once
+		try{
+		    Thread.sleep(1000);//wait a second
+		}
+		catch(InterruptedException e){
+		    e.printStackTrace();
+		}
 	    }
 	    else if (action.equals("B")){
 		System.out.println(player.specialAttack(opponent));
+		//this is pause/wait code so stuff doesn't print all at once
+		try{
+		    Thread.sleep(1000);//wait a second
+		}
+		catch(InterruptedException e){
+		    e.printStackTrace();
+		}
 	    }
 	    else if (action.equals("C")){
-	    System.out.println("How lazy. What kind of true player gives up? Fine, I'll let it go this time.");
+		System.out.println("How lazy. What kind of true player gives up? Fine, I'll let it go this time.");
+		//this is pause/wait code so stuff doesn't print all at once
+		try{
+		    Thread.sleep(1000);//wait a second
+		}
+		catch(InterruptedException e){
+		    e.printStackTrace();
+		}
 	    }
 	    //opponent attacks
-	    String oppclass=opponent.getClass().getSimpleName();
-	    
-	    /*
-	    int x=(int)(Math.random()*5)+1;
-	    if (x==1){
+	    //String oppclass=opponent.getClass().getSimpleName();
+	    int willoppatk=(int)(Math.random()*2)+1;
+	    if (willoppatk==1){
 		System.out.println(opponent.attack(player)+"\n");
 	    }
 	    else{
 		System.out.println(opponent.specialAttack(player)+"\n");
 	    }
-	    */
+
+	    //this is pause/wait code so stuff doesn't print all at once
+	    try{
+		Thread.sleep(1000);//wait a second
+	    }
+	    catch(InterruptedException e){
+		e.printStackTrace();
+	    }
+	   
 	}
 	//announcing results
 	if (opponent.getHP()<=0){
