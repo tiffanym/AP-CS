@@ -22,6 +22,10 @@ public class Adventurer{
 	     (int)(Math.random()*31)+10);
     }
     public Adventurer(){   
+	this("Bob", (int)(Math.random()*81)+20, 
+	     (int)(Math.random()*31)+10,
+	     (int)(Math.random()*31)+10,
+	     (int)(Math.random()*31)+10);
     }
 
     //setters and getters for variables    
@@ -85,29 +89,32 @@ public class Adventurer{
 	}
 	return getName() + " attacks " + other.getName();
 	*/
-	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+" \n";
+	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
 	double hitchance= (double)(Math.random()*2)+0;
-	if (hit(other, hitchance)){
-	    int x=(int)(1.00- (double)(getDEX()/other.getDEX()))*getHP();
-	    //if (x==0){
-	    //x=5;
-	    //}
-	    if (other.getHP()-x>0 && x>0){
+	if (hit(other, hitchance) && getHP()>0){
+	    int x=(int)(1.00- (double)(getDEX()/other.getDEX()))*getDEX();
+	    x=Math.abs(x);
+	    if (other.getHP()-x>0 && x>0){	       
 		other.setHP(other.getHP()-x);
-		msg=msg+"Yay! "+getName()+" successfully hit "+
+		msg=msg+"=>Yay! "+getName()+" successfully hit "+
 		    other.getName()+" and did "+ x+ " damage";
 	    }
 	    else if (other.getHP()-x<=0 && x>0){
 		other.setHP(0);
-		msg=msg+"Dayum! "+getName()+" did " +x+
+		msg=msg+"=>Dayum! "+getName()+" did " +x+
 		    " damage and KOed "+other.getName();
 	    }
 	}
+	else if (getHP()<=0){
+	    msg+="=>Not enough HP. Sorry,"+getName()+" can't attack when you're dead";
+	}	
 	else{
-	    msg= msg+"...and misses :(";
+	    msg= msg+"=>...and misses :(";
 	}
 	return msg;
     }
+    
+    //gah... stupid thing can't run attack()
     /*
     public boolean checkattack(Adventurer other){
 	String msg=(String)(attack(other));
@@ -117,13 +124,24 @@ public class Adventurer{
 	return true;
     }
     */
+
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
-	if (hit (other,hitchance)){
-	    int x=(int)((1.00- (double)(getDEX()/other.getDEX()))*1.5)*getHP();
-	    x=x+10;	    
-	    return getName()+" does some special attack that an adventurer would do "+other.getName()+" and does "+x+" damage";
+	String msg=getName()+" special attacks "+other.getName()+"\n";
+	if (hit (other,hitchance) && getHP()>11){
+	    int x=(int)((1.00- (double)(getSTR()/other.getSTR())))*getSTR();
+	    x=Math.abs(x)+3;
+	    setHP(getHP()-10);
+	    other.setHP(other.getHP()-x);
+	    return msg+="=>"+getName()+" uses <some special attack an Adventurer would have> and strikes "+
+		other.getName()+" and does "+x+" damage";
 	}
-	return attack(other);
+	else if(getHP()<=11){
+	    return msg+="=>Not enough HP to use special attack. Try again, "+getName()+".";
+	}
+	else if(getHP()==0){
+	    return msg+="=>Sorry,"+getName()+", can't attack when you're dead";
+	}
+	return msg+="=>Not high enought hit chance \n"+"==>"+getName()+" will attack normally instead: \n"+attack(other);
     }
 }
