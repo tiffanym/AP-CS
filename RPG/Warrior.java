@@ -11,6 +11,7 @@ public class Warrior extends Adventurer{
     }
     public Warrior(){
 	super();
+	setrage((int)(Math.random()*15)+1);
     }
 
     //get and set methods for variables
@@ -30,13 +31,19 @@ public class Warrior extends Adventurer{
     //attack method(s)    
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
-	if (hit (other,hitchance) && getrage()-2>=0){
-	    int x=(int)((1.00- (double)(getDEX()/other.getDEX()))*1.5)*getHP();
-	    x=x+10;
+	String msg=getName()+" special attacks "+other.getName()+"\n";
+	if (hit (other,hitchance) && getrage()-2>=0 && getHP()>0){
+	    int x=(int)((1.00- (double)(getSTR()/other.getSTR()))*1.5)*getSTR();
+	    x=Math.abs(x)+10;
 	    setrage(getrage()-2);
-	    return getName()+" uses full rage and critically strikes "+
+	    other.setHP(other.getHP()-x);
+	    return msg+="=>"+getName()+" uses full rage and critically strikes "+
 		other.getName()+" and does "+x+" damage";
 	}
-	return "Not enough rage or not high enough hit chance \n"+attack(other);
+	else if(getHP()<=0){
+	    return msg+="=>Not enough HP. Sorry, "+getName()+", can't attack when you're dead";
+	}
+	return msg+="=>Not enough rage or not high enough hit chance to use special attack \n"+
+	    "==>"+getName()+" will attack normally instead: \n"+attack(other);
     }
 }   
