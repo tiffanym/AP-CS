@@ -11,6 +11,7 @@ public class Wizard extends Adventurer{
     }
     public Wizard(){
 	super();
+	setmana((int)(Math.random()*10)+1);
     }
     
     //get and set methods for variables
@@ -40,11 +41,17 @@ public class Wizard extends Adventurer{
     //attack method(s)
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
-	if (hitMagic (other,hitchance) && getmana()-2>=0){
-	    int x=(int)((1.00- (double)(getDEX()/other.getDEX()))*1.1)*getHP();
-	    x=x+2;
-	    return getName()+" switches staff for wand and uses mana power to critically burn "+other.getName()+" and does "+x+" damage";	  
+	String msg=getName()+" special attacks "+other.getName()+"\n";
+	if (hitMagic (other,hitchance) && getmana()-2>=0 && getHP()>0){
+	    int x=(int)((1.00- (double)(getINT()/other.getINT()))*1.1)*getINT();
+	    x=Math.abs(x)+2;
+	    setmana(getmana()-2);
+	    other.setHP(other.getHP()-x);
+	    return msg+="=>"+getName()+" switches staff for wand and uses mana power to critically burn "+other.getName()+" and does "+x+" damage";
 	}
-	return "Not enough mana or not high enough hit chance \n"+attack(other);
+	else if(getHP()<=0){
+	    return msg+="=>Not enough HP. Sorry, "+getName()+", can't attack when you're dead";
+	}
+	return msg+="=>Not enough mana or not high enough hit chance to use special attack \n"+"==>"+getName()+" will attack normally instead: \n"+attack(other);
     }
 }
