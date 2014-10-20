@@ -1,4 +1,4 @@
-public class Adventurer{
+abstract class Adventurer{
     private String name;
     private int HP;
     private int STR;
@@ -65,9 +65,7 @@ public class Adventurer{
     }
 
     //toString method
-    public String getStats(){
-	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT";
-    }
+    public abstract String getStats();
 
     //hit method-- will you hit the person or not
     //QUESTION: Why is actualhitrate<= hitchance the only way it works?
@@ -83,12 +81,6 @@ public class Adventurer{
 
     //attack method
     public String attack(Adventurer other){
-	/*
-	if (getName().equals(other.getName())){
-	    return "I'm sorry, " +getName()+" but we don't promote self-mutilation in this game.";
-	}
-	return getName() + " attacks " + other.getName();
-	*/
 	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
 	double hitchance= (double)(Math.random()*2)+0;
 	if (hit(other, hitchance) && getHP()>0){
