@@ -24,7 +24,7 @@ public class Wizard extends Adventurer{
 
     //toString method
     public String getStats(){
-	return super.getStats()+" "+getmana()+" mana";
+	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT "+getmana()+" mana";
     }
    
     //hitMagic() method for wizard to calculate hit%
