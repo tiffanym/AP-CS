@@ -25,7 +25,7 @@ public class Warrior extends Adventurer{
    
     //toString method
     public String getStats(){
-	return super.getStats()+" "+getrage()+" rage";
+	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT "+getrage()+" rage";
     }
 
     //attack method(s)    
