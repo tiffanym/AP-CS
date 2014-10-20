@@ -24,7 +24,7 @@ public class Rogue extends Adventurer{
 
     //toString method
     public String getStats(){
-	return super.getStats()+" "+getSTA()+" stamina";
+	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT "+getSTA()+" stamina";
     }
 
     //attack method(s)
