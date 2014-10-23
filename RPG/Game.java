@@ -1,5 +1,18 @@
 import java.util.Scanner;
 public class Game{
+	public static Adventurer combat(Adventurer[]player, Adventurer opponent){
+		Scanner in=new Scanner();
+		System.out.println("How many characters do you want to go against "+opponent.getName()+"?");
+		int n=in.nextInt;
+		int[]playerArray;
+		playerArray=[n];
+		i=0;
+		do{
+			
+		
+		}while(i<n);
+		
+	}
 
     public static void main(String[]args){
 	Adventurer player,opponent;	
