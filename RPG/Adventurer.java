@@ -1,4 +1,4 @@
-abstract class Adventurer{
+public class Adventurer{
     private String name;
     private int HP;
     private int STR;
@@ -65,7 +65,9 @@ abstract class Adventurer{
     }
 
     //toString method
-    public abstract String getStats();
+    public String getStats(){
+	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT ";
+    }
 
     //hit method-- will you hit the person or not
     //QUESTION: Why is actualhitrate<= hitchance the only way it works?
@@ -79,12 +81,27 @@ abstract class Adventurer{
 	}
     }
 
+    public int getMaxStatDiff(){
+	int STRINT= Math.abs(getSTR()-getINT());
+	int DEXINT= Math.abs(getDEX()-getINT());
+	int STRDEX= Math.abs(getSTR()-getDEX());
+	int maxspan=STRINT;
+	if (DEXINT>=maxspan){
+	    maxspan=DEXINT;
+	}
+	else if(STRDEX>=maxspan){
+	    maxspan=STRDEX;
+	}
+	return maxspan;
+    }
+    
     //attack method
     public String attack(Adventurer other){
 	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
 	double hitchance= (double)(Math.random()*2)+0;
 	if (hit(other, hitchance) && getHP()>0){
-	    int x=(int)(1.00- (double)(getDEX()/other.getDEX()))*getDEX();
+	    //int x=(int)(1.00- (double)(getDEX()/other.getDEX()))*getDEX();
+	    int x=(int)((1.00-(double)(this.getMaxStatDiff()/other.getMaxStatDiff()))*getHP());
 	    x=Math.abs(x);
 	    if (other.getHP()-x>0 && x>0){	       
 		other.setHP(other.getHP()-x);
@@ -106,22 +123,12 @@ abstract class Adventurer{
 	return msg;
     }
     
-    //gah... stupid thing can't run attack()
-    /*
-    public boolean checkattack(Adventurer other){
-	String msg=(String)(attack(other));
-	if (msg.substring(msg.length()-2).equals(":(")){
-	    return false;
-	}
-	return true;
-    }
-    */
-
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
 	String msg=getName()+" special attacks "+other.getName()+"\n";
 	if (hit (other,hitchance) && getHP()>11){
-	    int x=(int)((1.00- (double)(getSTR()/other.getSTR())))*getSTR();
+	    //int x=(int)((1.00- (double)(getSTR()/other.getSTR())))*getSTR();
+	    int x=(int)((1.00-(double)(this.getMaxStatDiff()/other.getMaxStatDiff()))*getHP());
 	    x=Math.abs(x)+3;
 	    setHP(getHP()-10);
 	    other.setHP(other.getHP()-x);
@@ -136,4 +143,5 @@ abstract class Adventurer{
 	}
 	return msg+="=>Not high enought hit chance \n"+"==>"+getName()+" will attack normally instead: \n"+attack(other);
     }
+
 }
