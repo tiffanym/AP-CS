@@ -1,8 +1,17 @@
 public class MartialArtist extends Adventurer{
     private int qui;
     
-    public String getStats(){
-	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT "+getqui()+"qui";
+    //constuctors
+    public MartialArtist(String s){
+	super(s);
+	setqui((int)(Math.random()*15)+1);
+	setSTR((int)(Math.random()*31)+10);
+	setDEX((int)(Math.random()*31)+10);
+	setINT((int)(Math.random()*31)+10);
+    }
+    public MartialArtist(){
+	super();
+	setqui((int)(Math.random()*15)+1);
     }
     
     public int getqui(){
@@ -20,7 +29,7 @@ public class MartialArtist extends Adventurer{
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
 	String msg=getName()+" special attacks "+other.getName()+"\n";
-	if (hit (other,hitchance) && getrage()-2>=0 && getHP()>0){
+	if (hit (other,hitchance) && getqui()-2>=0 && getHP()>0){
 	    int x=(int)((1.00- (double)(getDEX()/other.getDEX()))*1.5)*getDEX();
 	    x=Math.abs(x)+12;
 	    setqui(getqui()-2);
