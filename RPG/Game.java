@@ -21,7 +21,7 @@ public class Game{
 	String name=in.nextLine();
 	boolean done=false;
 	do{
-	    System.out.println("Choose a class: \n A : Warrior \n B : Wizard \n"+"C : Rogue");
+	    System.out.println("Choose a class: \n A : Warrior \n B : Wizard \n"+"C : Rogue \n"+"D : Martial Artist");
 	    selection=in.nextLine().toUpperCase();
 	    if (selection.equals("A")){
 		System.out.println("You picked Warrior.\n");
@@ -38,6 +38,11 @@ public class Game{
 		player=new Rogue();
 		done=true;
 	    }
+	    else if(selection.equals("D")){
+		System.out.println("You picked Martial Arist.\n");
+		player=new MartialArtist();
+		done=true;
+	    }
 	    else{
 		player=new Adventurer();
 	    }
@@ -48,7 +53,7 @@ public class Game{
     //opponent randomly chosen as Warrior/Wizard/Rogue/Adventurer
     public static Adventurer opponentGenerate(){
 	Adventurer opponent;
-	int opponentnumber=(int)(Math.random()*3)+1;
+	int opponentnumber=(int)(Math.random()*4)+1;
 	if (opponentnumber==1){
 	    opponent=new Warrior("Maximus Evil");
 	}
@@ -57,6 +62,9 @@ public class Game{
 	}
 	else if(opponentnumber==3){
 	    opponent=new Rogue("Roobiedaloo Evil");
+	}
+	else if(opponentnumber==4){
+	    opponent=new MartialArtist("Hwayah!!! Evil");
 	}
 	else{
 	    opponent=new Adventurer("Some-guy-on-the-street Evil");
