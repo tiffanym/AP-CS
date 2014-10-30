@@ -28,7 +28,33 @@ public class Warrior extends Adventurer{
 	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT "+getrage()+" rage";
     }
 
-    //attack method(s)    
+    //attack method(s)  
+    public String attack(Adventurer other){
+	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
+	if (hit(other) && getHP()>0){
+	    int x=(int)(this.getSTR()/other.getSTR());
+	    x=Math.abs(x);
+	    if (other.getHP()-x>0 && x>0){	       
+		other.setHP(other.getHP()-x);
+		msg=msg+"=>Yay! "+getName()+" successfully hit "+
+		    other.getName()+" and did "+ x+ " damage";
+	    }
+	    else if (other.getHP()-x<=0 && x>0){
+		other.setHP(0);
+		msg=msg+"=>Dayum! "+getName()+" did " +x+
+		    " damage and KOed "+other.getName();
+	    }
+	}
+	else if (getHP()<=0){
+	    msg+="=>Not enough HP. Sorry,"+getName()+" can't attack when you're dead";
+	}	
+	else{
+	    msg= msg+"=>...and misses :(";
+	    int x=(int)(this.getSTR()/other.getSTR());
+	}
+	return msg;
+    }
+ 
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
 	String msg=getName()+" special attacks "+other.getName()+"\n";
