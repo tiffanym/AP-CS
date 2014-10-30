@@ -1,4 +1,4 @@
-public class Adventurer{
+abstract class Adventurer{
     private String name;
     private int HP;
     private int STR;
@@ -94,14 +94,26 @@ public class Adventurer{
 	}
 	return maxspan;
     }
+
+    //hit method
+    public boolean hit (Adventurer other){
+	int x= (int)(Math.random()*4)+1;
+	int hitchance= this.getDEX()/other.getDEX();
+	if (x<hitchance){
+	    return true;
+	}
+	else{
+	    return false;
+	}
+    }
     
     //attack method
-    public String attack(Adventurer other){
+    public abstract String attack();
+    /*{
 	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
-	double hitchance= (double)(Math.random()*2)+0;
-	if (hit(other, hitchance) && getHP()>0){
-	    //int x=(int)(1.00- (double)(getDEX()/other.getDEX()))*getDEX();
-	    int x=(int)((1.00-(double)(this.getMaxStatDiff()/other.getMaxStatDiff()))*getHP());
+	if (hit(other) && getHP()>0){
+	    int x=(int)(this.getDEX()/other.getDEX());
+	//int x=(int)((1.00-(double)(this.getMaxStatDiff()/other.getMaxStatDiff()))*getHP());
 	    x=Math.abs(x);
 	    if (other.getHP()-x>0 && x>0){	       
 		other.setHP(other.getHP()-x);
@@ -122,12 +134,12 @@ public class Adventurer{
 	}
 	return msg;
     }
+    */
     
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
 	String msg=getName()+" special attacks "+other.getName()+"\n";
 	if (hit (other,hitchance) && getHP()>11){
-	    //int x=(int)((1.00- (double)(getSTR()/other.getSTR())))*getSTR();
 	    int x=(int)((1.00-(double)(this.getMaxStatDiff()/other.getMaxStatDiff()))*getHP());
 	    x=Math.abs(x)+3;
 	    setHP(getHP()-10);
@@ -141,6 +153,9 @@ public class Adventurer{
 	else if(getHP()==0){
 	    return msg+="=>Sorry,"+getName()+", can't attack when you're dead";
 	}
+	//else{
+	//   return msg+="Cruel Gods of Java, WHY ISN'T THIS WORKING?!?!?!?!";
+	//}
 	return msg+="=>Not high enought hit chance \n"+"==>"+getName()+" will attack normally instead: \n"+attack(other);
     }
 
