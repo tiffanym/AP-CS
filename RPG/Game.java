@@ -44,7 +44,8 @@ public class Game{
 		done=true;
 	    }
 	    else{
-		player=new Adventurer();
+		//player=new Adventurer();
+		done=false;
 	    }
 	}while (!done);
 	return player;
@@ -53,22 +54,31 @@ public class Game{
     //opponent randomly chosen as Warrior/Wizard/Rogue/Adventurer
     public static Adventurer opponentGenerate(){
 	Adventurer opponent;
-	int opponentnumber=(int)(Math.random()*4)+1;
-	if (opponentnumber==1){
-	    opponent=new Warrior("Maximus Evil");
-	}
-	else if(opponentnumber==2){
-	    opponent=new Wizard("Merlindine Evil");
-	}
-	else if(opponentnumber==3){
-	    opponent=new Rogue("Roobiedaloo Evil");
-	}
-	else if(opponentnumber==4){
-	    opponent=new MartialArtist("Hwayah!!! Evil");
-	}
-	else{
-	    opponent=new Adventurer("Some-guy-on-the-street Evil");
-	}
+	int opponentnumber;
+	boolean done=false;
+	do{
+	    opponentnumber=(int)(Math.random()*3.99)+1;
+	    if (opponentnumber==1){
+		opponent=new Warrior("Maximus Evil");
+		done=true;
+	    }
+	    else if(opponentnumber==2){
+		opponent=new Wizard("Merlindine Evil");
+		done=true;
+	    }
+	    else if(opponentnumber==3){
+		opponent=new Rogue("Roobiedaloo Evil");
+		done=true;
+	    }
+	    else if(opponentnumber==4){
+		opponent=new MartialArtist("Hwayah!!! Evil");
+		done=true;
+	    }
+	    else{
+		//opponent=new Adventurer("Some-guy-on-the-street Evil");
+		done=false;
+	    }
+	}while(!done);
 	return opponent;
     }
 
@@ -100,7 +110,7 @@ public class Game{
 	if (bonusStats>0){
 	    //adds to DEX stat
 	    System.out.println("You have "+bonusStats+" stat points to distribute b/w DEX and INT");
-	    pause(2);
+	    pause(1);
 	    System.out.println("How many points would you like to add to DEX?");
 	    int addDEX=checkINTinput(0,bonusStats);
 	    player.setDEX(player.getDEX()+addDEX);
@@ -131,9 +141,9 @@ public class Game{
     //creates new character
     public static Adventurer userGenerateCharacter(){
 	Adventurer player=userSelectClass();
-	player.setSTR(1);
-	player.setDEX(1);
-	player.setINT(1);
+	player.setSTR(10);
+	player.setDEX(10);
+	player.setINT(10);
 	assignBonusStats(player, 27);
 	return player;
     }
