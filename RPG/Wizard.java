@@ -39,10 +39,10 @@ public class Wizard extends Adventurer{
     }
 
     //attack method(s)
-public String attack(Adventurer other){
+    public String attack(Adventurer other){
 	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
-	if (hit(other) && getHP()>0){
-	    int x=(int)(this.getINT()/other.getINT());
+	if (hit(other) && getHP()>0 && other.getHP()>0){
+	    int x=(int)(this.getINT()*2/3);
 	    x=Math.abs(x);
 	    if (other.getHP()-x>0 && x>0){	       
 		other.setHP(other.getHP()-x);
@@ -58,9 +58,12 @@ public String attack(Adventurer other){
 	else if (getHP()<=0){
 	    msg+="=>Not enough HP. Sorry,"+getName()+" can't attack when you're dead";
 	}	
+	else if(other.getHP()<=0){
+	    return msg+="=>Well, um... "+ other.getName()+"is kinda... sorta... dead. x.x";
+	}
 	else{
 	    msg= msg+"=>...and misses :(";
-	    int x=(int)(this.getINT()/other.getINT());
+	    int x=(int)(this.getINT()*2/3);
 	}
 	return msg;
     }
@@ -68,7 +71,7 @@ public String attack(Adventurer other){
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
 	String msg=getName()+" special attacks "+other.getName()+"\n";
-	if (hitMagic (other,hitchance) && getmana()-2>=0 && getHP()>0){
+	if (hitMagic (other,hitchance) && getmana()-2>=0 && getHP()>0 && other.getHP()>0){
 	    int x=(int)((1.00- (double)(getINT()/other.getINT()))*1.1)*getINT();
 	    x=Math.abs(x)+2;
 	    setmana(getmana()-2);
@@ -77,6 +80,9 @@ public String attack(Adventurer other){
 	}
 	else if(getHP()<=0){
 	    return msg+="=>Not enough HP. Sorry, "+getName()+", can't attack when you're dead";
+	}
+	else if(other.getHP()<=0){
+	    return msg+="=>Well, um... "+ other.getName()+"is kinda... sorta... dead. x.x";
 	}
 	return msg+="=>Not enough mana or not high enough hit chance to use special attack \n"+"==>"+getName()+" will attack normally instead: \n"+attack(other);
     }
