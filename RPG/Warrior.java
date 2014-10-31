@@ -31,8 +31,8 @@ public class Warrior extends Adventurer{
     //attack method(s)  
     public String attack(Adventurer other){
 	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
-	if (hit(other) && getHP()>0){
-	    int x=(int)(this.getSTR()/other.getSTR());
+	if (hit(other) && getHP()>0 && other.getHP()>0){
+	    int x=(int)(this.getSTR()*2/3);
 	    x=Math.abs(x);
 	    if (other.getHP()-x>0 && x>0){	       
 		other.setHP(other.getHP()-x);
@@ -48,9 +48,12 @@ public class Warrior extends Adventurer{
 	else if (getHP()<=0){
 	    msg+="=>Not enough HP. Sorry,"+getName()+" can't attack when you're dead";
 	}	
+	else if(other.getHP()<=0){
+	    return msg+="=>Well, um... "+ other.getName()+"is kinda... sorta... dead. x.x";
+	}
 	else{
 	    msg= msg+"=>...and misses :(";
-	    int x=(int)(this.getSTR()/other.getSTR());
+	    int x=(int)(this.getSTR()*2/3);
 	}
 	return msg;
     }
@@ -58,7 +61,7 @@ public class Warrior extends Adventurer{
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
 	String msg=getName()+" special attacks "+other.getName()+"\n";
-	if (hit (other,hitchance) && getrage()-2>=0 && getHP()>0){
+	if (hit (other) && getrage()-2>=0 && getHP()>0 && other.getHP()>0){
 	    int x=(int)((1.00- (double)(getSTR()/other.getSTR()))*1.5)*getSTR();
 	    x=Math.abs(x)+10;
 	    setrage(getrage()-2);
@@ -68,6 +71,9 @@ public class Warrior extends Adventurer{
 	}
 	else if(getHP()<=0){
 	    return msg+="=>Not enough HP. Sorry, "+getName()+", can't attack when you're dead";
+	}
+	else if(other.getHP()<=0){
+	    return msg+="=>Well, um... "+ other.getName()+"is kinda... sorta... dead. x.x";
 	}
 	return msg+="=>Not enough rage or not high enough hit chance to use special attack \n"+
 	    "==>"+getName()+" will attack normally instead: \n"+attack(other);
