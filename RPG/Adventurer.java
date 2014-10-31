@@ -1,4 +1,4 @@
-abstract class Adventurer{
+public class Adventurer{
     private String name;
     private int HP;
     private int STR;
@@ -71,7 +71,7 @@ abstract class Adventurer{
 
     //hit method-- will you hit the person or not
     //QUESTION: Why is actualhitrate<= hitchance the only way it works?
-    public boolean hit(Adventurer other, double hitchance){
+    /*public boolean hit(Adventurer other, double hitchance){
 	double actualhitrate=this.getDEX()/other.getDEX();
 	if (actualhitrate<=hitchance && Math.abs(actualhitrate)<=1){
 	    return true;
@@ -80,7 +80,7 @@ abstract class Adventurer{
 	    return false;
 	}
     }
-
+    */
     public int getMaxStatDiff(){
 	int STRINT= Math.abs(getSTR()-getINT());
 	int DEXINT= Math.abs(getDEX()-getINT());
@@ -97,9 +97,14 @@ abstract class Adventurer{
 
     //hit method
     public boolean hit (Adventurer other){
-	int x= (int)(Math.random()*4)+1;
-	int hitchance= this.getDEX()/other.getDEX();
-	if (x<hitchance){
+	//int x= (int)((double)(Math.random()*2)+1.00);
+	//int hitchance= this.getDEX()/other.getDEX();
+	int randSTR=(int)(Math.random()*25)+1;
+	int randDEX=(int)(Math.random()*25)+1;
+	int randINT=(int)(Math.random()*25)+1;
+	int randTotal=(int)(Math.random()*71)+30;
+	int x=randSTR+randDEX+randINT;
+	if (x<randTotal){
 	    return true;
 	}
 	else{
@@ -108,12 +113,11 @@ abstract class Adventurer{
     }
     
     //attack method
-    public abstract String attack();
-    /*{
+    public String attack(Adventurer other){
 	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
-	if (hit(other) && getHP()>0){
-	    int x=(int)(this.getDEX()/other.getDEX());
-	//int x=(int)((1.00-(double)(this.getMaxStatDiff()/other.getMaxStatDiff()))*getHP());
+	if (hit(other) && getHP()>0 && other.getHP()>0){
+	    //int x=(int)(this.getDEX()/other.getDEX());
+	    int x=(int)(this.getMaxStatDiff()*2/3);
 	    x=Math.abs(x);
 	    if (other.getHP()-x>0 && x>0){	       
 		other.setHP(other.getHP()-x);
@@ -129,17 +133,19 @@ abstract class Adventurer{
 	else if (getHP()<=0){
 	    msg+="=>Not enough HP. Sorry,"+getName()+" can't attack when you're dead";
 	}	
+	else if(other.getHP()<=0){
+	    return msg+="=>Well, um... "+ other.getName()+"is kinda... sorta... dead. x.x";
+	}
 	else{
 	    msg= msg+"=>...and misses :(";
 	}
 	return msg;
     }
-    */
     
     public String specialAttack(Adventurer other){
 	double hitchance= (double)(Math.random()*2)+0;
 	String msg=getName()+" special attacks "+other.getName()+"\n";
-	if (hit (other,hitchance) && getHP()>11){
+	if (hit (other) && getHP()>11 && other.getHP()>0){
 	    int x=(int)((1.00-(double)(this.getMaxStatDiff()/other.getMaxStatDiff()))*getHP());
 	    x=Math.abs(x)+3;
 	    setHP(getHP()-10);
@@ -152,6 +158,9 @@ abstract class Adventurer{
 	}
 	else if(getHP()==0){
 	    return msg+="=>Sorry,"+getName()+", can't attack when you're dead";
+	}
+	else if(other.getHP()<=0){
+	    return msg+="=>Well, um... "+ other.getName()+"is kinda... sorta... dead. x.x";
 	}
 	//else{
 	//   return msg+="Cruel Gods of Java, WHY ISN'T THIS WORKING?!?!?!?!";
