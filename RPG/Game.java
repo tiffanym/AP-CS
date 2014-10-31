@@ -14,7 +14,7 @@ public class Game{
 
     //user picks a name for character and generates class
     public static Adventurer userSelectClass(){
-	Adventurer player;
+	Adventurer player=null;
 	Scanner in=new Scanner(System.in);
 	String selection;
 	System.out.println("What is your name?");
@@ -25,35 +25,75 @@ public class Game{
 	    selection=in.nextLine().toUpperCase();
 	    if (selection.equals("A")){
 		System.out.println("You picked Warrior.\n");
-		player=new Warrior();
+		player=new Warrior(name);
 		done=true;
 	    }
 	    else if (selection.equals("B")){
 		System.out.println("You picked Wizard.\n");
-		player=new Wizard();
+		player=new Wizard(name);
 		done=true;
 	    }
 	    else if (selection.equals("C")){
 		System.out.println("You picked Rogue.\n");
-		player=new Rogue();
+		player=new Rogue(name);
 		done=true;
 	    }
 	    else if(selection.equals("D")){
 		System.out.println("You picked Martial Arist.\n");
-		player=new MartialArtist();
+		player=new MartialArtist(name);
 		done=true;
 	    }
 	    else{
-		//player=new Adventurer();
 		done=false;
 	    }
 	}while (!done);
 	return player;
     }
 
+    //same as opponentGenerate but creating a new player; for combat thing where you're making a team of players
+    //too confusing to change opponentGenerate()'s name at this point
+    //and also names are a lot nicer, or at least less... evil... sounding... O.o
+    public static Adventurer playerGenerate(){
+	Adventurer player=null;
+	int playernumber;
+	int timesset=0;
+	//boolean done=(timesset<3);
+	String[] warriors={"Mortimus the Mighty","Maximus the Great","Hugo the Almighty"};
+	String[] wizards={"Merlin Zippity Zap","Bob the Brilliant","Sugar, Spice and Everything NICE"};
+	String[] rogues={"Monty Python","Too Swayze For You","Dancing Doodle"};
+	String[] martists={"Master Sensei","Hammurabi Code","Eye of the Broccoli Chance"};
+	do{
+	    playernumber=(int)(Math.random()*3.99)+1;
+	    if (playernumber==1){
+		int x=(int)(Math.random()+2);
+		player=new Warrior(warriors[x]);
+		timesset+=1;
+	    }
+	    else if(playernumber==2){
+		int x=(int)(Math.random()+2);
+		player=new Wizard(wizards[x]);
+		timesset+=1;
+	    }
+	    else if(playernumber==3){
+		int x=(int)(Math.random()+2);
+		player=new Rogue(rogues[x]);
+		timesset+=1;	       
+	    }
+	    else if(playernumber==4){
+		int x=(int)(Math.random()+2);
+		player=new MartialArtist(martists[x]);
+		timesset+=1;
+	    }
+	    else{
+		timesset=timesset;
+	    }
+	}while(timesset<2);
+	return player;
+    }
+
     //opponent randomly chosen as Warrior/Wizard/Rogue/Adventurer
     public static Adventurer opponentGenerate(){
-	Adventurer opponent;
+	Adventurer opponent=null;
 	int opponentnumber;
 	boolean done=false;
 	do{
@@ -135,7 +175,7 @@ public class Game{
 
 	pause(1);
 
-	System.out.println("Here are your updated stats:"+player.getStats()+"\n");
+	System.out.println("\nHere are your updated stats:"+player.getStats()+"\n");
     }
 
     //creates new character
@@ -152,18 +192,28 @@ public class Game{
     public static void readyornot(){
 	Scanner readyscan=new Scanner(System.in);
 	System.out.println("Are you ready? [Y/N]");
-	String ready=readyscan.nextLine().toUpperCase();
-	if (ready.equals("Y")){
-	    System.out.println("Awesome! Let's get started: \n");
-	}
-	else if(ready.equals("N")){
-	    System.out.println("Too bad. You signed up for this, so stop complaining. >:-) \n");
-	}
+	String ready;
+	boolean done=false;
+	do{
+	    ready=readyscan.nextLine().toUpperCase();
+	    if (ready.equals("Y")){
+		System.out.println("Awesome! Let's get started: \n");
+		done=true;
+	    }
+	    else if(ready.equals("N")){
+		System.out.println("Too bad. You signed up for this, so stop complaining. >:-) \n");
+		done=true;
+	    }
+	    else{
+		System.out.println("C'mon. Put in something legit, will ya?");
+		done=false;
+	    }
+	}while (!done);
     }
 
     public static void playerattackmode(Adventurer player, Adventurer opponent){
 	Scanner in=new Scanner(System.in);
-	System.out.println("Choose an action: \n"+"A : attack \n"+"B : special attack \n"+"C : give up");
+	System.out.println(player.getName()+"\nChoose an action: \n"+"A : attack \n"+"B : special attack \n"+"C : give up");
 	String action=in.nextLine().toUpperCase();
 	while ("ABC".indexOf(action.toUpperCase())==-1){
 	    System.out.println("ERROR Please enter a valid option.");
@@ -196,32 +246,99 @@ public class Game{
 	pause(1);	 
     }
 
-    public static void combat(Adventurer player, Adventurer opponent){
+    public static Adventurer[] defOrCust(Adventurer player){
+	Scanner in=new Scanner(System.in);
+	System.out.println("BEFORE THE BATTLE BEGINS:\n"+"You will be part of a team of three.\n"+"HOW WOULD YOU LIKE TO CREATE YOUR TEAM?\n"+
+			   "A : USE DEFAULT TEAM\n"+"B : MAKE MY CUSTOM TEAM");
+	String DefOrCust;
+	Adventurer[] team=new Adventurer[3];
+	team[0]=player;
+	boolean done=false;
+	do{
+	    DefOrCust=in.nextLine().toUpperCase();
+	    if (DefOrCust.equals("A")){
+		for (int i=1;i<3;i++){
+		    team[i]=playerGenerate();
+		}
+		done=true;
+	    }
+	    else if(DefOrCust.equals("B")){
+		for (int i=1;i<3;i++){
+		    team[i]=userGenerateCharacter();
+		}
+		done=false;
+	    }
+	    else{
+		System.out.println("ERROR: Please enter a valid option.");
+		done=false;
+	    }
+	}while(!done);
+	return team;
+    }
+
+    public static void combat(Adventurer[] playerteam, Adventurer opponent){
 	readyornot();
 	pause(1);
-	System.out.println(player.getName()+" vs. "+opponent.getName());
+	System.out.println(playerteam[0].getName()+"'s TEAM:");	
+	for (int i=0;i<playerteam.length;i++){
+	    System.out.println(playerteam[i].getName());
+	}
+	System.out.println("\nvs.\nTHAT OTHER GUY:\n"+opponent.getName()+"\n");
+	pause(1);
+	boolean playerteamstillalive=true;
 	do{
-	    System.out.println(player.getStats());
-	    System.out.println(opponent.getStats());
-	    System.out.println();
-	    playerattackmode(player,opponent);
-	    opponentattacks(player,opponent);
-	}while (player.getHP()>0 && opponent.getHP()>0);
+	    for (int i=0; i<playerteam.length;i++){
+		playerteamstillalive=(playerteam[i].getHP()<=0);
+		for (int x=0; x<playerteam.length;x++){
+		    System.out.println(playerteam[x].getStats());
+		}
+		System.out.println(opponent.getStats());
+		System.out.println();
+		playerattackmode(playerteam[i],opponent);
+		opponentattacks(playerteam[i],opponent);
+	    }
+	}while (playerteamstillalive && opponent.getHP()>0);
 
 	//announcing results
 	if (opponent.getHP()<=0){
-	    System.out.println("Yay! "+player.getName()+" won!!!");
+	    System.out.println("Yay! "+playerteam[0].getName()+"'s team won!!!");
 	}
-	else if (player.getHP()<=0){
-	    System.out.println("Aw, "+player.getName()+" lost. :'("+ "\n"+"Well boo-hoo for you, but somebody (a.k.a. "+opponent.getName()+") is going home a winner!!!! \n"+"I mean.... uh... everyone's a winner? ^v^;");
+	else {
+	    System.out.println("Aw, "+playerteam[0].getName()+" lost. :'("+ "\n"+"Well boo-hoo for you, but somebody (a.k.a. "+opponent.getName()+") is going home a winner!!!! \n"+"I mean.... uh... everyone's a winner? ^v^;");
 	}
 	
+    }
+
+    public static void combatmode(Adventurer player, Adventurer opponent){
+	combat(defOrCust(player),opponent);
+	
+	//asking for another round?
+	Scanner in=new Scanner(System.in);
+	System.out.println("What do you want to do now?\n"+"A : STOP\n"+"B : FIGHT AGAIN");
+	String answer;
+	boolean done=false;
+	do{
+	    answer=in.nextLine().toUpperCase();
+	    if(answer.equals("A")){
+		System.exit(0);
+		done=true;
+	    }
+	    else if(answer.equals("B")){
+		combat(defOrCust(player),opponent);
+		done=true;
+	    }
+	    else{
+		System.out.println("ERROR: Please enter a valid option.");
+		done=false;
+	    }
+	}while(!done);
     }
 
     public static void main(String[]args){
 	Adventurer player=userGenerateCharacter();
 	Adventurer opponent=opponentGenerate();
 	pause(1);
-	combat(player,opponent);
+	//	combat(defOrCust(player),opponent);
+	combatmode(player, opponent);
     }
 }
