@@ -21,7 +21,7 @@ public class Game{
 	String name=in.nextLine();
 	boolean done=false;
 	do{
-	    System.out.println("Choose a class: \n A : Warrior \n B : Wizard \n"+"C : Rogue \n"+"D : Martial Artist");
+	    System.out.println("Choose a class: \nA : Warrior \nB : Wizard \n"+"C : Rogue \n"+"D : Martial Artist");
 	    selection=in.nextLine().toUpperCase();
 	    if (selection.equals("A")){
 		System.out.println("You picked Warrior.\n");
@@ -134,7 +134,7 @@ public class Game{
 
     //player can allocate 30 stat points b/w their STR/DEX/INT
     public static void assignBonusStats(Adventurer player, int bonusStats){
-	System.out.println("Here are your current stats:"+player.getStats()+"\n");
+	System.out.println("Here are your current stats:\n"+player.getStats()+"\n");
 	pause(1);
 	System.out.println("You have "+bonusStats+" stat points to distribute b/w STR/DEX/INT");	
 
@@ -143,7 +143,7 @@ public class Game{
 	int addSTR= checkINTinput(0,bonusStats);
 	player.setSTR(player.getSTR()+addSTR);
 	bonusStats=bonusStats-addSTR;
-	System.out.println("You have added "+addSTR+" stat points to STR. \n"+" Your strength is now "+player.getSTR()+".");
+	System.out.println("You have added "+addSTR+" stat points to STR. \n"+"=>Your strength is now "+player.getSTR()+".\n");
 	
 	pause(1);
 
@@ -155,14 +155,14 @@ public class Game{
 	    int addDEX=checkINTinput(0,bonusStats);
 	    player.setDEX(player.getDEX()+addDEX);
 	    bonusStats=bonusStats-addDEX;
-	    System.out.println("You have added "+addDEX+" stat points to DEX. \n"+" Your dexterity is now "+player.getDEX()+".");	    
+	    System.out.println("You have added "+addDEX+" stat points to DEX. \n"+"=>Your dexterity is now "+player.getDEX()+".\n");	    
 	    
 	    pause(1);
 
 	    if (bonusStats>0){
 		//adds rest of bonusStatsto INT
 		player.setINT(player.getINT()+bonusStats);
-		System.out.println(bonusStats+" stat points have been added to INT. \n"+" Your intelligence is now "+player.getINT()+".");
+		System.out.println(bonusStats+" stat points have been added to INT. \n"+"=>Your intelligence is now "+player.getINT()+".");
 		bonusStats=0;
 	    }
 	    else{
@@ -175,7 +175,7 @@ public class Game{
 
 	pause(1);
 
-	System.out.println("\nHere are your updated stats:"+player.getStats()+"\n");
+	System.out.println("\nHere are your updated stats:\n"+player.getStats()+"\n");
     }
 
     //creates new character
@@ -191,7 +191,7 @@ public class Game{
     //checks readiness/ "Are you still alive right now"-ness
     public static void readyornot(){
 	Scanner readyscan=new Scanner(System.in);
-	System.out.println("Are you ready? [Y/N]");
+	System.out.println("\nAre you ready? [Y/N]");
 	String ready;
 	boolean done=false;
 	do{
@@ -231,6 +231,9 @@ public class Game{
 	}
 	else if (action.equals("C")){
 	    System.out.println("How lazy. What kind of true player gives up? Fine, I'll let it go this time.");
+	    int x=(int)(Math.random()*8)+1;
+	    player.setHP(player.getHP()+x);
+	    System.out.println("=>"+player.getName()+" did not move and regained "+x+" HP.");
 	    pause(1);
 	}
     }
@@ -257,16 +260,18 @@ public class Game{
 	do{
 	    DefOrCust=in.nextLine().toUpperCase();
 	    if (DefOrCust.equals("A")){
-		for (int i=1;i<3;i++){
+		for (int i=1;i<3;i++){	
 		    team[i]=playerGenerate();
 		}
 		done=true;
 	    }
 	    else if(DefOrCust.equals("B")){
 		for (int i=1;i<3;i++){
+		    System.out.println("=>Controlled Minion "+i+"<=");
 		    team[i]=userGenerateCharacter();
 		}
 		done=false;
+		break;
 	    }
 	    else{
 		System.out.println("ERROR: Please enter a valid option.");
@@ -283,39 +288,60 @@ public class Game{
 	for (int i=0;i<playerteam.length;i++){
 	    System.out.println(playerteam[i].getName());
 	}
-	System.out.println("\nvs.\nTHAT OTHER GUY:\n"+opponent.getName()+"\n");
+	System.out.println("\nvs.\n\nTHAT OTHER GUY:\n"+opponent.getName()+"\n");
 	pause(1);
 	boolean playerteamstillalive=true;
+	boolean opponentalive=true;
 	do{
-	    for (int i=0; i<playerteam.length;i++){
-		playerteamstillalive=(playerteam[i].getHP()<=0);
-		for (int x=0; x<playerteam.length;x++){
-		    System.out.println(playerteam[x].getStats());
+	    for (int i=0;i<playerteam.length;i++){
+		playerteamstillalive=((playerteam[0].getHP()>0) || (playerteam[1].getHP()>0) || (playerteam[2].getHP()>0));
+		opponentalive=(opponent.getHP()>0);
+
+		if (opponentalive){
+		    System.out.println("=>YOUR TEAM<=");
+		    for (int x=0; x<playerteam.length;x++){
+			System.out.println(playerteam[x].getStats());
+		    }
+		    System.out.println("=>ENEMY'S TEAM<=\n"+opponent.getStats());
+		    System.out.println();
+		    playerattackmode(playerteam[i],opponent);
+		    opponentattacks(playerteam[i],opponent);
 		}
-		System.out.println(opponent.getStats());
-		System.out.println();
-		playerattackmode(playerteam[i],opponent);
-		opponentattacks(playerteam[i],opponent);
+		else{
+		    break;
+		}	   
 	    }
-	}while (playerteamstillalive && opponent.getHP()>0);
+	}while (playerteamstillalive && opponentalive);
 
 	//announcing results
 	if (opponent.getHP()<=0){
 	    System.out.println("Yay! "+playerteam[0].getName()+"'s team won!!!");
 	}
-	else {
+	else if (!playerteamstillalive){
 	    System.out.println("Aw, "+playerteam[0].getName()+" lost. :'("+ "\n"+"Well boo-hoo for you, but somebody (a.k.a. "+opponent.getName()+") is going home a winner!!!! \n"+"I mean.... uh... everyone's a winner? ^v^;");
 	}
 	
     }
 
+    //makes a copy of the original team should the player wish to fight again
+    public static Adventurer[] backUp(Adventurer[] team){
+	Adventurer[] newteam= new Adventurer[team.length];
+	for (int i=0;i<team.length;i++){
+	    newteam[i]=team[i].clone();
+	}
+	return newteam;
+    }
+
     public static void combatmode(Adventurer player, Adventurer opponent){
-	combat(defOrCust(player),opponent);
-	
+	Adventurer[] team=defOrCust(player);
+	Adventurer[] backUpTeam= backUp(team);
+	Adventurer newOpponent=opponentGenerate();
+	combat(team,opponent);
+
 	//asking for another round?
 	Scanner in=new Scanner(System.in);
 	System.out.println("What do you want to do now?\n"+"A : STOP\n"+"B : FIGHT AGAIN");
-	String answer;
+	String answer;	
 	boolean done=false;
 	do{
 	    answer=in.nextLine().toUpperCase();
@@ -324,7 +350,7 @@ public class Game{
 		done=true;
 	    }
 	    else if(answer.equals("B")){
-		combat(defOrCust(player),opponent);
+		combat(backUpTeam,newOpponent);
 		done=true;
 	    }
 	    else{
@@ -332,9 +358,12 @@ public class Game{
 		done=false;
 	    }
 	}while(!done);
+	done=false;	
     }
 
     public static void main(String[]args){
+	System.out.println("==***WELCOME TO STUYABLO***==");
+	System.out.println("=**CREATE YOUR CHARACTER**=");
 	Adventurer player=userGenerateCharacter();
 	Adventurer opponent=opponentGenerate();
 	pause(1);
