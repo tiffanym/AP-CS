@@ -4,7 +4,9 @@ public class Wizard extends Adventurer{
     //constructors
     public Wizard(String name){
 	super(name);
+	maxHP=this.getHP();
 	setmana((int)(Math.random()*10)+1);
+	maxResource=this.getmana();
 	setSTR((int)(Math.random()*41)+10);
 	setDEX((int)(Math.random()*21)+10);
 	setINT((int)(Math.random()*51)+10);
@@ -24,7 +26,7 @@ public class Wizard extends Adventurer{
 
     //toString method
     public String getStats(){
-	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT "+getmana()+" mana";
+	return getName()+"["+getClass().getSimpleName()+"]"+getHP()+" HP "+getSTR()+" STR "+getDEX()+" DEX "+getINT()+" INT "+getmana()+" mana";
     }
    
     //hitMagic() method for wizard to calculate hit%
@@ -76,6 +78,9 @@ public class Wizard extends Adventurer{
 	    x=Math.abs(x)+2;
 	    setmana(getmana()-2);
 	    other.setHP(other.getHP()-x);
+	    if (other.getHP()<=0){
+		other.setHP(0);
+	    }
 	    return msg+="=>"+getName()+" switches staff for wand and uses mana power to critically burn "+other.getName()+" and does "+x+" damage";
 	}
 	else if(getHP()<=0){
@@ -85,5 +90,21 @@ public class Wizard extends Adventurer{
 	    return msg+="=>Well, um... "+ other.getName()+"is kinda... sorta... dead. x.x";
 	}
 	return msg+="=>Not enough mana or not high enough hit chance to use special attack \n"+"==>"+getName()+" will attack normally instead: \n"+attack(other);
+    }
+    
+    public Wizard clone(){
+	Wizard ans;
+	ans=new Wizard(name);
+	ans.setHP(HP);
+	ans.setSTR(STR);
+	ans.setDEX(DEX);
+	ans.setINT(INT);
+	ans.setmana(mana);
+	return ans;
+    }
+    
+    public void healAll(){
+	setHP(maxHP);
+	setmana(maxResource);
     }
 }
