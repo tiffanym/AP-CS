@@ -1,9 +1,12 @@
-public class Adventurer{
-    private String name;
-    private int HP;
-    private int STR;
-    private int DEX;
-    private int INT;
+abstract class Adventurer{
+    protected String name;
+    protected int HP;
+    protected int STR;
+    protected int DEX;
+    protected int INT;
+    protected int maxHP;
+    protected int maxResource;
+
 
     //constructors
     public Adventurer(String name,int HP, int STR, int DEX, int INT){
@@ -13,6 +16,7 @@ public class Adventurer{
 	setDEX(DEX);
 	setINT(INT);
     }
+
     //int num = (int) (Math.random()*range)+min
     //where "range=(max-min)+1"
     public Adventurer (String name){
@@ -65,22 +69,13 @@ public class Adventurer{
     }
 
     //toString method
-    public String getStats(){
+    abstract String getStats();
+    /*{
 	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT ";
     }
-
-    //hit method-- will you hit the person or not
-    //QUESTION: Why is actualhitrate<= hitchance the only way it works?
-    /*public boolean hit(Adventurer other, double hitchance){
-	double actualhitrate=this.getDEX()/other.getDEX();
-	if (actualhitrate<=hitchance && Math.abs(actualhitrate)<=1){
-	    return true;
-	}
-	else{
-	    return false;
-	}
-    }
     */
+
+    //for special attack
     public int getMaxStatDiff(){
 	int STRINT= Math.abs(getSTR()-getINT());
 	int DEXINT= Math.abs(getDEX()-getINT());
@@ -97,8 +92,6 @@ public class Adventurer{
 
     //hit method
     public boolean hit (Adventurer other){
-	//int x= (int)((double)(Math.random()*2)+1.00);
-	//int hitchance= this.getDEX()/other.getDEX();
 	int randSTR=(int)(Math.random()*25)+1;
 	int randDEX=(int)(Math.random()*25)+1;
 	int randINT=(int)(Math.random()*25)+1;
@@ -113,7 +106,8 @@ public class Adventurer{
     }
     
     //attack method
-    public String attack(Adventurer other){
+    abstract String attack(Adventurer other);
+    /*{
 	String msg=getName()+" the "+getClass().getSimpleName()+" attacks "+other.getName()+" the "+other.getClass().getSimpleName()+"\n";
 	if (hit(other) && getHP()>0 && other.getHP()>0){
 	    //int x=(int)(this.getDEX()/other.getDEX());
@@ -141,8 +135,10 @@ public class Adventurer{
 	}
 	return msg;
     }
+    */
     
-    public String specialAttack(Adventurer other){
+    abstract String specialAttack(Adventurer other);
+    /*{
 	double hitchance= (double)(Math.random()*2)+0;
 	String msg=getName()+" special attacks "+other.getName()+"\n";
 	if (hit (other) && getHP()>11 && other.getHP()>0){
@@ -167,5 +163,9 @@ public class Adventurer{
 	//}
 	return msg+="=>Not high enought hit chance \n"+"==>"+getName()+" will attack normally instead: \n"+attack(other);
     }
+    */
 
+    public abstract Adventurer clone();
+    
+    protected abstract void healAll();
 }
