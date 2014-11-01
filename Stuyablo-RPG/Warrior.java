@@ -4,7 +4,9 @@ public class Warrior extends Adventurer{
     //constuctors
     public Warrior(String s){
 	super(s);
+	maxHP=this.getHP();
 	setrage((int)(Math.random()*15)+1);
+	maxResource=this.getrage();
 	setSTR((int)(Math.random()*51)+10);
 	setDEX((int)(Math.random()*41)+10);
 	setINT((int)(Math.random()*21)+10);
@@ -25,7 +27,7 @@ public class Warrior extends Adventurer{
    
     //toString method
     public String getStats(){
-	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT "+getrage()+" rage";
+	return getName()+"["+getClass().getSimpleName()+"]"+getHP()+" HP "+getSTR()+" STR "+getDEX()+" DEX "+getINT()+" INT "+getrage()+" rage";
     }
 
     //attack method(s)  
@@ -66,6 +68,9 @@ public class Warrior extends Adventurer{
 	    x=Math.abs(x)+10;
 	    setrage(getrage()-2);
 	    other.setHP(other.getHP()-x);
+	    if (other.getHP()<=0){
+		other.setHP(0);
+	    }
 	    return msg+="=>"+getName()+" uses full rage and critically strikes "+
 		other.getName()+" and does "+x+" damage";
 	}
@@ -77,5 +82,21 @@ public class Warrior extends Adventurer{
 	}
 	return msg+="=>Not enough rage or not high enough hit chance to use special attack \n"+
 	    "==>"+getName()+" will attack normally instead: \n"+attack(other);
+    }
+    
+    public Warrior clone(){
+	Warrior ans;
+	ans=new Warrior(name);
+	ans.setHP(HP);
+	ans.setSTR(STR);
+	ans.setDEX(DEX);
+	ans.setINT(INT);
+	ans.setrage(rage);
+	return ans;
+    }
+    
+    public void healAll(){
+	setHP(maxHP);
+	setrage(maxResource);
     }
 }   
