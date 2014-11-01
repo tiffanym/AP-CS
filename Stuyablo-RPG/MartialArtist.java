@@ -4,7 +4,9 @@ public class MartialArtist extends Adventurer{
     //constuctors
     public MartialArtist(String s){
 	super(s);
+	maxHP=this.getHP();
 	setqui((int)(Math.random()*15)+1);
+	maxResource=this.getqui();
 	setSTR((int)(Math.random()*31)+10);
 	setDEX((int)(Math.random()*31)+10);
 	setINT((int)(Math.random()*31)+10);
@@ -22,7 +24,7 @@ public class MartialArtist extends Adventurer{
     }
     
     public String getStats(){
-	return getName()+" ("+getClass().getSimpleName()+")"+"\n"+getHP()+"HP  "+getSTR()+"STR  "+getDEX()+"DEX  "+getINT()+"INT "+getqui()+" qui";
+	return getName()+"["+getClass().getSimpleName()+"]"+getHP()+" HP "+getSTR()+" STR "+getDEX()+" DEX "+getINT()+" INT "+getqui()+" qui";
     }
 
     //because Martial Artist is just that awesome
@@ -75,6 +77,9 @@ public class MartialArtist extends Adventurer{
 	    x=Math.abs(x)+12;
 	    setqui(getqui()-2);
 	    other.setHP(other.getHP()-x);
+	    if (other.getHP()<=0){
+		other.setHP(0);
+	    }
 	    return msg+="=>"+getName()+" calls upon the Almighty Powers of Qui to critically strike "+
 		other.getName()+" and does "+x+" damage";
 	}
@@ -86,5 +91,21 @@ public class MartialArtist extends Adventurer{
 	}
 	return msg+="=>Not enough qui or not high enough hit chance to use special attack \n"+
 	    "==>"+getName()+" will attack normally instead: \n"+attack(other);
+    }
+
+    public MartialArtist clone(){
+	MartialArtist ans;
+	ans=new MartialArtist(name);
+	ans.setHP(HP);
+	ans.setSTR(STR);
+	ans.setDEX(DEX);
+	ans.setINT(INT);
+	ans.setqui(qui);
+	return ans;
+    }
+    
+    public void healAll(){
+	setHP(maxHP);
+	setqui(maxResource);
     }
 }
